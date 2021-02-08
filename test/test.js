@@ -1,4 +1,4 @@
-const figlet = require('./index.js');
+const figlet = require('../index.js');
 const Figlet = new figlet();
 
 

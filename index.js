@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
-
+const font_path = path.join(__dirname,"fonts");
 module.exports = class {
     constructor(){
         this.fonts = new Map();
@@ -12,11 +12,11 @@ module.exports = class {
 	}
 
     async loadFont(name) {
-        return await fs.readFile("./fonts/" + name + ".flf", "utf-8");
+        return await fs.readFile(path.join(font_path, name + ".flf"), "utf-8");
     }
 
     async loadFonts(){
-        let files = await fs.readdir('./fonts');
+        let files = await fs.readdir(font_path);
         for(const file of files){
             if(file.endsWith('.flf')) {
                 let name = file.slice(0,file.length-4);
@@ -25,14 +25,14 @@ module.exports = class {
         }
         return;
     }
-        
+
     _parseFont (name, defn) {
         let lines = defn.split("\n"),
             header = lines[0].split(" "),
             hardblank = header[0].charAt(header[0].length - 1),
             height = +header[1],
             comments = +header[5];
-        
+
         this.fonts.set(name,{
             defn: lines.slice(comments + 1),
             hardblank: hardblank,
@@ -41,14 +41,14 @@ module.exports = class {
         });
         return;
     }
-        
+
     async parseChar (char, font) {
         let fontDefn = this.fonts.get(font);
 
         if (char in fontDefn.char) {
             return fontDefn.char[char];
         }
-        
+
         let height = fontDefn.height,
             start = (char - 32) * height,
             charDefn = [],

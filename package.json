@@ -1,10 +1,10 @@
 {
   "name": "figlet-promises",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "description": "A new promise based figlet for modern times!",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
