@@ -1,6 +1,6 @@
 {
   "name": "figlet-promises",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A new promise based figlet for modern times!",
   "main": "index.js",
   "scripts": {
