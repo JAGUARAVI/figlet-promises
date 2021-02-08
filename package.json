@@ -1,0 +1,25 @@
+{
+  "name": "figlet-promises",
+  "version": "0.0.2",
+  "description": "A new promise based figlet for modern times!",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JAGUARAVI/figlet-promises.git"
+  },
+  "keywords": [
+    "figlet",
+    "promises",
+    "new",
+    "asscii"
+  ],
+  "author": "JAGUAR#0240",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JAGUARAVI/figlet-promises/issues"
+  },
+  "homepage": "https://github.com/JAGUARAVI/figlet-promises#readme"
+}
