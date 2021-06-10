@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const font_path = path.join(__dirname,"fonts");
 module.exports = class {
@@ -6,21 +6,21 @@ module.exports = class {
         this.fonts = new Map();
     }
 
-    async parseFont(name) {
+    parseFont(name) {
 		if(this.fonts.has(name))return;
-	    return this._parseFont(name,await this.loadFont(name));
+	    return this._parseFont(name, this.loadFont(name));
 	}
 
-    async loadFont(name) {
-        return await fs.readFile(path.join(font_path, name + ".flf"), "utf-8");
+    loadFont(name) {
+        return fs.readFileSync(path.join(font_path, name + ".flf"), "utf-8");
     }
 
-    async loadFonts(){
-        let files = await fs.readdir(font_path);
+    loadFonts(){
+        let files = fs.readdirSync(font_path);
         for(const file of files){
             if(file.endsWith('.flf')) {
                 let name = file.slice(0,file.length-4);
-                await this.parseFont(name);
+                this.parseFont(name);
             }
         }
         return;
@@ -42,7 +42,7 @@ module.exports = class {
         return;
     }
 
-    async parseChar (char, font) {
+    parseChar (char, font) {
         let fontDefn = this.fonts.get(font);
 
         if (char in fontDefn.char) {
@@ -64,22 +64,20 @@ module.exports = class {
         return charDefn;
     }
 
-    async write (str,font){
-        return new Promise(async (resolve,reject) => {
-            if(!font) return reject('No font provided!');
-            let chars = [],
-                result = "",
-                len,i,height;
-            for (i = 0, len = str.length; i < len; i++) {
-                chars[i] = await this.parseChar(str.charCodeAt(i), font);
+    write (str,font){
+        if(!font) return reject('No font provided!');
+        let chars = [],
+            result = "",
+            len,i,height;
+        for (i = 0, len = str.length; i < len; i++) {
+            chars[i] = this.parseChar(str.charCodeAt(i), font);
+        }
+        for (i = 0, height = chars[0].length; i < height; i++) {
+            for (var j = 0; j < len; j++) {
+                result += chars[j][i];
             }
-            for (i = 0, height = chars[0].length; i < height; i++) {
-                for (var j = 0; j < len; j++) {
-                    result += chars[j][i];
-                }
-                result += "\n";
-            }
-            return resolve(result);
-        });
+            result += "\n";
+        }
+        return result;
     }
 };
